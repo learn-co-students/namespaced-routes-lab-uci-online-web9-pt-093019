@@ -25,7 +25,11 @@ class SongsController < ApplicationController
   end
 
   def new
-    @song = Song.new
+    if Preference.last.allow_create_artists
+      @song = Song.new
+    else
+      redirect_to songs_path, notice: "You don't have permission to create a new song."
+    end
   end
 
   def create
